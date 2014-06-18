@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Map;
+import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 
 /**
@@ -110,7 +112,7 @@ public class MainUI extends javax.swing.JFrame implements ActionListener, Proper
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btn_unzip.setText("Unzip");
+        btn_unzip.setText("Unpack");
         btn_unzip.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_unzipActionPerformed(evt);
@@ -121,7 +123,7 @@ public class MainUI extends javax.swing.JFrame implements ActionListener, Proper
         txt_log.setRows(5);
         jScrollPane2.setViewportView(txt_log);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "depot/eso0007.dat", "depot/eso0002.dat", "depot/eso0004.dat" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "eso0007.dat", "eso0002.dat", "eso0004.dat", "game0000.dat" }));
 
         jCheckBox1.setSelected(true);
         jCheckBox1.setText("Is Mac");
@@ -281,7 +283,7 @@ public class MainUI extends javax.swing.JFrame implements ActionListener, Proper
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_unzipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_unzipActionPerformed
-        task = new DatTask(this,txt_filename.getText()+jComboBox1.getSelectedItem().toString());
+        task = new DatTask(this,txt_filename.getText()+determineDatPath(jComboBox1.getSelectedItem().toString()));
         task.addPropertyChangeListener(this);
         task.execute();
     }//GEN-LAST:event_btn_unzipActionPerformed
@@ -379,6 +381,18 @@ public class MainUI extends javax.swing.JFrame implements ActionListener, Proper
         }
         txt_filename.setText(esoAppFile);
     }
+    
+    private String determineDatPath(String datName) {
+        if (datName.startsWith("game")) {
+            return datFile_game;
+        } else if (datName.startsWith("esoaudioen")) {
+            
+        } else {//Else eso.
+            return "/depot/"+datName;
+        }
+        return "";
+    }
+        
     /**
      * @param args the command line arguments
      */
